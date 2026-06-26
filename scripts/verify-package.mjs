@@ -140,16 +140,18 @@ function auditEntries(entryList) {
 }
 
 function run(command, args, cwd) {
+  const useShell = process.platform === "win32" && command.endsWith(".cmd");
   const result = spawnSync(command, args, {
     cwd,
     encoding: "utf8",
-    shell: false,
+    shell: useShell,
     env: { ...process.env, BROWSER: "none" },
     maxBuffer: 1024 * 1024 * 10
   });
+  const errorOutput = result.error ? `\nERROR: ${result.error.message}` : "";
   return {
     status: result.status ?? 1,
-    output: `${result.stdout ?? ""}${result.stderr ?? ""}`.trim()
+    output: `${result.stdout ?? ""}${result.stderr ?? ""}${errorOutput}`.trim()
   };
 }
 
@@ -175,4 +177,3 @@ function sha256(file) {
     stream.on("error", reject);
   });
 }
-
