@@ -8,7 +8,12 @@ let browser;
 
 try {
   await mkdir(outDir, { recursive: true });
-  await waitForHttp(server.url);
+  try {
+    await waitForHttp(server.url);
+  } catch (error) {
+    console.error(server.output());
+    throw error;
+  }
   browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(server.url, { waitUntil: "networkidle" });
@@ -44,4 +49,3 @@ try {
   }
   stopServer(server.child);
 }
-

@@ -7,7 +7,12 @@ let browser;
 
 try {
   console.log("Starting Vite...");
-  await waitForHttp(server.url);
+  try {
+    await waitForHttp(server.url);
+  } catch (error) {
+    console.error(server.output());
+    throw error;
+  }
   console.log(`Opening browser at ${server.url}`);
   browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });

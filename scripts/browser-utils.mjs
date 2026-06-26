@@ -37,7 +37,8 @@ export async function waitForHttp(url, timeoutMs = 20000) {
       if (response.ok) {
         return;
       }
-      lastError = `HTTP ${response.status}`;
+      const body = await response.text().catch(() => "");
+      lastError = `HTTP ${response.status}${body ? `: ${body.slice(0, 500)}` : ""}`;
     } catch (error) {
       lastError = error instanceof Error ? error.message : String(error);
     }
