@@ -38,10 +38,13 @@ try {
   await page.waitForSelector('[data-screen="game"]');
   console.log("Game started.");
   await expectText(page, "Town Request Board");
+  await expectText(page, "Actions Left");
+  await expectText(page, "Water Left");
   await expectCount(page, "[data-plot]", 80);
   await assertNoHorizontalOverflow(page, "board 1280x720");
 
   await page.click('[data-plot="0"]');
+  await expectText(page, "WATER");
   await page.click('[data-plot="0"]');
   await page.click('[data-action="end-day"]');
   await page.click('[data-action="end-day"]');

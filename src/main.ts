@@ -1064,11 +1064,11 @@ function renderTitle(): void {
         <h2>How Food Engines Work</h2>
         <ol>
           <li>Plant crops on the farm grid.</li>
-          <li>Water them and wait for harvest.</li>
+          <li>Water them when a plot says WATER. Water is limited.</li>
           <li>Complete town requests for trust and food security.</li>
           <li>Build food engines: soil, water, seeds, kitchens, preservation, markets.</li>
           <li>Store pantry food before weather and demand get rude.</li>
-          <li>Finish 21 days with a town that can feed itself.</li>
+          <li>Each day has 6 actions. Finish 21 days with a town that can feed itself.</li>
         </ol>
       </section>
       <div class="toast" role="status"></div>
@@ -1083,11 +1083,11 @@ function renderGame(): void {
   app.innerHTML = `
     <main class="game-shell" data-screen="game">
       <header class="hud">
-        ${statPill("Day", `${game.day}/${RUN_DAYS}`)}
-        ${statPill("Actions", String(game.actionsLeft))}
+        ${statPill("Day", `${game.day} of ${RUN_DAYS}`)}
+        ${statPill("Actions Left", `${game.actionsLeft}/${DAILY_ACTIONS}`)}
         ${statPill("Weather", weather.name)}
         ${statPill("Money", `$${game.money}`)}
-        ${statPill("Water", String(game.water))}
+        ${statPill("Water Left", String(game.water))}
         ${statPill("Seeds", String(game.seeds))}
         ${statPill("Fresh", String(game.freshFood))}
         ${statPill("Pantry", String(game.pantryFood))}
@@ -1173,7 +1173,9 @@ function renderGame(): void {
         <button class="close-button" data-action="how">Close</button>
         <h2>How Food Engines Work</h2>
         <ol>
-          <li>Plant crops, then water them unless rain helps.</li>
+          <li>Plant crops, then water plots marked WATER unless rain helps.</li>
+          <li>You get 6 actions each day. The HUD shows Actions Left and Day 1 of 21.</li>
+          <li>Water is a limited resource; wells, rain barrels, and rain help refill it.</li>
           <li>Harvesting costs 1 action and gives crop inventory plus Fresh Food.</li>
           <li>Fill town requests to raise Town Fed, Market Trust, and Food Security.</li>
           <li>Build engines to improve soil, water, seeds, kitchens, preservation, and markets.</li>
@@ -1290,7 +1292,7 @@ function plotButton(plot: Plot): string {
   return `
     <button class="${classes}" data-plot="${plot.id}" aria-label="${label}" title="${label}">
       ${crop ? cropArt(crop.id, stage, plot) : `<span class="dirt-lines"></span>`}
-      ${crop && !plot.watered && !ready && !plot.spoiled ? `<span class="water-need">DROP</span>` : ""}
+      ${crop && !plot.watered && !ready && !plot.spoiled ? `<span class="water-need">WATER</span>` : ""}
       ${crop ? `<span class="day-badge">${ready ? "READY" : `${Math.max(0, crop.growthDays - plot.age)}d`}</span>` : ""}
     </button>
   `;
@@ -1299,12 +1301,15 @@ function plotButton(plot: Plot): string {
 function cropArt(cropId: CropId, stage: string, plot: Plot): string {
   const crop = cropById(cropId);
   return `
-    <span class="crop-art ${stage}" style="--crop:${crop.color};--accent:${crop.accent}">
+    <span class="crop-art crop-art-${crop.id} ${stage}" style="--crop:${crop.color};--accent:${crop.accent}">
       <span class="stem"></span>
       <span class="leaf leaf-a"></span>
       <span class="leaf leaf-b"></span>
       <span class="fruit fruit-a"></span>
       <span class="fruit fruit-b"></span>
+      <span class="grain grain-a"></span>
+      <span class="grain grain-b"></span>
+      <span class="grain grain-c"></span>
       <span class="crop-label">${plot.spoiled ? "BAD" : crop.short}</span>
     </span>
   `;

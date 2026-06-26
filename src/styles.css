@@ -816,9 +816,79 @@ h1 {
   bottom: 8px;
 }
 
+.grain {
+  display: none;
+  position: absolute;
+  width: 8px;
+  height: 19px;
+  border-radius: 9px 9px 3px 3px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(92, 57, 24, 0.35) 46% 54%, transparent 54%),
+    #f0c95b;
+  box-shadow:
+    -5px 6px 0 #dcae40,
+    5px 6px 0 #f5d574,
+    0 12px 0 #c99630;
+}
+
+.grain-a {
+  left: 14px;
+  bottom: 19px;
+  transform: rotate(-16deg);
+}
+
+.grain-b {
+  left: 21px;
+  bottom: 23px;
+}
+
+.grain-c {
+  right: 10px;
+  bottom: 18px;
+  transform: rotate(16deg);
+}
+
+.crop-art-wheat .stem {
+  left: 20px;
+  bottom: 3px;
+  width: 5px;
+  height: 36px;
+  background: #be8a31;
+}
+
+.crop-art-wheat .leaf {
+  width: 13px;
+  height: 22px;
+  border-radius: 9px 2px 9px 2px;
+  background: #cfa746;
+}
+
+.crop-art-wheat .leaf-a {
+  left: 10px;
+  bottom: 9px;
+  transform: rotate(-38deg);
+}
+
+.crop-art-wheat .leaf-b {
+  right: 11px;
+  bottom: 13px;
+  transform: rotate(38deg);
+}
+
+.crop-art-wheat .fruit {
+  display: none;
+}
+
+.crop-art-wheat.stage-growing .grain,
+.crop-art-wheat.stage-ready .grain {
+  display: block;
+}
+
 .stage-seed .stem,
 .stage-seed .leaf,
 .stage-seed .fruit,
+.stage-seed .grain,
+.stage-sprout .grain,
 .stage-sprout .fruit {
   display: none;
 }
@@ -848,7 +918,8 @@ h1 {
 
 .stage-spoiled .stem,
 .stage-spoiled .leaf,
-.stage-spoiled .fruit {
+.stage-spoiled .fruit,
+.stage-spoiled .grain {
   background: #5b5b3c;
 }
 
@@ -871,12 +942,12 @@ h1 {
   z-index: 3;
   padding: 1px 5px;
   border-radius: 999px;
-  font-size: 0.54rem;
+  font-size: 0.5rem;
   font-weight: 1000;
 }
 
 .water-need {
-  left: 4px;
+  left: 3px;
   top: 4px;
   background: #60b6e9;
   color: #08294f;

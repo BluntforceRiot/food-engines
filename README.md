@@ -42,9 +42,10 @@ npm run verify:package
 ## How To Play
 
 - Start a 21-day farm run.
-- Each day gives 6 actions.
+- Each day gives 6 actions; the HUD shows `Actions Left`.
+- Water is limited; the HUD shows `Water Left`.
 - Select a crop and click an empty dirt plot to plant.
-- Click a thirsty crop to water it.
+- Click a crop marked `WATER` to water it.
 - Click a ready crop to harvest it. Harvesting costs 1 action.
 - Complete Town Request Board orders for Town Fed, Food Security, Market Trust, money, and seed rewards.
 - Build Food Engines to improve soil, water, seeds, kitchens, preservation, and markets.

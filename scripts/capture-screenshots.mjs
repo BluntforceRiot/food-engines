@@ -28,9 +28,9 @@ try {
   await page.screenshot({ path: `${outDir}/food-engines-board.png`, fullPage: true });
 
   await page.click('[data-plot="0"]');
-  await page.click('[data-plot="0"]');
   await page.screenshot({ path: `${outDir}/food-engines-planting.png`, fullPage: true });
 
+  await page.click('[data-plot="0"]');
   await page.click('[data-action="end-day"]');
   await page.click('[data-action="end-day"]');
   await page.click('[data-plot="0"]');
