@@ -6,7 +6,7 @@ const consoleErrors = [];
 let browser;
 
 try {
-  console.log("Starting Vite...");
+  console.log("Starting Vite preview...");
   try {
     await waitForHttp(server.url);
   } catch (error) {

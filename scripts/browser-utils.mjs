@@ -7,9 +7,12 @@ export function startVite(port = 5191) {
   if (!existsSync(viteBin)) {
     throw new Error(`Vite executable not found at ${viteBin}. Run npm install first.`);
   }
+  if (!existsSync(join(process.cwd(), "dist", "index.html"))) {
+    throw new Error("Built dist/index.html not found. Run npm run build before browser proof scripts.");
+  }
   const child = spawn(
     process.execPath,
-    [viteBin, "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    [viteBin, "preview", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
     {
       cwd: process.cwd(),
       env: { ...process.env, BROWSER: "none" },
