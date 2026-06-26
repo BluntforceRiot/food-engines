@@ -27,8 +27,9 @@ try {
   });
 
   await page.goto(server.url, { waitUntil: "networkidle" });
+  await page.evaluate(() => localStorage.clear());
+  await page.reload({ waitUntil: "networkidle" });
   console.log("Title loaded.");
-  await page.evaluate(() => window.FoodEnginesTest?.reset());
   await page.waitForSelector('[data-screen="title"]');
   await expectText(page, "Food Engines");
   await assertNoHorizontalOverflow(page, "title 1280x720");
@@ -47,18 +48,15 @@ try {
   await page.click('[data-plot="0"]');
   console.log("Crop planted, watered, advanced, harvested.");
 
-  const harvested = await page.evaluate(() => {
-    const state = window.FoodEnginesTest.getState();
-    return Boolean(state && state.freshFood > 0 && state.harvestedCrops.includes("tomatoes"));
-  });
-  if (!harvested) {
+  const freshFood = Number(await readStat(page, "Fresh"));
+  if (!Number.isFinite(freshFood) || freshFood <= 0) {
     throw new Error("Tomatoes did not harvest into fresh food.");
   }
 
   await page.click('[data-engine="compost"]');
   console.log("Engine click sent.");
-  const engineBuilt = await page.evaluate(() => window.FoodEnginesTest.getState()?.engines.includes("compost"));
-  if (!engineBuilt) {
+  const engineBuilt = await page.locator('[data-engine="compost"]').filter({ hasText: "Built" }).count();
+  if (engineBuilt < 1) {
     throw new Error("Compost engine did not build.");
   }
 
@@ -67,7 +65,7 @@ try {
     await firstRequest.click();
   }
 
-  await page.evaluate(() => window.FoodEnginesTest.forceEnding());
+  await advanceToEnding(page);
   await page.waitForSelector('[data-screen="ending"]');
   console.log("Ending reached.");
   await expectText(page, "Copy Recap");
@@ -98,5 +96,29 @@ async function expectCount(page, selector, expected) {
   const count = await page.locator(selector).count();
   if (count !== expected) {
     throw new Error(`Expected ${expected} matches for ${selector}, got ${count}.`);
+  }
+}
+
+async function readStat(page, label) {
+  return page.$$eval(
+    ".stat-pill",
+    (pills, statLabel) => {
+      const match = pills.find((pill) => pill.querySelector("span")?.textContent?.trim() === statLabel);
+      return match?.querySelector("strong")?.textContent?.trim() ?? "";
+    },
+    label
+  );
+}
+
+async function advanceToEnding(page) {
+  for (let i = 0; i < 25; i += 1) {
+    if ((await page.locator('[data-screen="ending"]').count()) > 0) {
+      return;
+    }
+    const endDay = page.locator('[data-action="end-day"]');
+    if ((await endDay.count()) < 1) {
+      break;
+    }
+    await endDay.click();
   }
 }

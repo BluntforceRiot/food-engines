@@ -1394,32 +1394,4 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-window.FoodEnginesTest = {
-  reset() {
-    clearRun();
-    localStorage.removeItem(BEST_KEY);
-    state = null;
-    view = "title";
-    render();
-  },
-  forceEnding() {
-    const game = requireState();
-    game.day = RUN_DAYS;
-    finishRun();
-  },
-  getState() {
-    return state;
-  }
-};
-
-declare global {
-  interface Window {
-    FoodEnginesTest: {
-      reset: () => void;
-      forceEnding: () => void;
-      getState: () => GameState | null;
-    };
-  }
-}
-
 render();

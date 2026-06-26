@@ -17,7 +17,8 @@ try {
   browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(server.url, { waitUntil: "networkidle" });
-  await page.evaluate(() => window.FoodEnginesTest?.reset());
+  await page.evaluate(() => localStorage.clear());
+  await page.reload({ waitUntil: "networkidle" });
   await page.waitForSelector('[data-screen="title"]');
   await page.screenshot({ path: `${outDir}/food-engines-title.png`, fullPage: true });
 
@@ -38,8 +39,9 @@ try {
 
   await page.screenshot({ path: `${outDir}/food-engines-town-request.png`, fullPage: true });
 
-  await page.evaluate(() => window.FoodEnginesTest.forceEnding());
+  await advanceToEnding(page);
   await page.waitForSelector('[data-screen="ending"]');
+  await page.waitForTimeout(2400);
   await page.screenshot({ path: `${outDir}/food-engines-ending.png`, fullPage: true });
 
   console.log(`Screenshots written to ${outDir}`);
@@ -48,4 +50,17 @@ try {
     await browser.close();
   }
   stopServer(server.child);
+}
+
+async function advanceToEnding(page) {
+  for (let i = 0; i < 25; i += 1) {
+    if ((await page.locator('[data-screen="ending"]').count()) > 0) {
+      return;
+    }
+    const endDay = page.locator('[data-action="end-day"]');
+    if ((await endDay.count()) < 1) {
+      break;
+    }
+    await endDay.click();
+  }
 }
