@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.vite/
+coverage/
+.cache/
+tmp/
+temp/
+*.log
+*.zip
+BUILD_LOG_FOOD_ENGINES.txt
+BUILD_RECEIPT_FOOD_ENGINES.md
+PACKAGE_VERIFY_FOOD_ENGINES.md
+PLAYTEST_REPORT_FOOD_ENGINES.md
+output/
+

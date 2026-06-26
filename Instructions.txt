@@ -1,0 +1,645 @@
+Build a static browser game called “Food Engines” for the Summer into AI Week 2: Independence Engines competition.
+
+Concept:
+Food Engines is a bright, cartoon, American-themed farm-grid browser game about food independence. The intended broad reference point is old Facebook-era casual farm games like FarmVille: simple square crop plots, plant/wait/harvest loops, cute farm buildings, visible crop timers, request boards, expansion dopamine, and cozy clicky farming. However, this must be original. Do not copy FarmVille names, art, UI, sounds, monetization, crop assets, layouts, social mechanics, or branding.
+
+The twist:
+This is not just “grow tomatoes for coins.” The player is building the food engines underneath a small American town: soil, water, seeds, farm stands, school lunches, firehouse chili, diners, canning jars, root cellars, county fair pies, co-op deliveries, food pantry reserves, and emergency meals when the grocery truck is late.
+
+Tone:
+Cartoon Americana. Bright, funny, civic, farmstand, county fair, red barn, blue ribbon, diner coffee, parade fundraiser, school cafeteria, church-basement-casserole energy without becoming partisan or religiously preachy. It should feel like a cheerful Facebook farm game got invaded by a community food-security spreadsheet wearing overalls.
+
+Important IP/style guard:
+
+* Do not copy FarmVille, Stardew Valley, Hay Day, Farm Story, or any commercial game’s art, names, UI, sounds, mechanics one-for-one, characters, logos, crop assets, or monetization.
+* Do not use real political party branding.
+* Do not use real politician names or likenesses.
+* Avoid copyrighted mascots, logos, or branded food names.
+* Original cartoon farm art only, created with CSS/SVG/canvas/procedural shapes.
+
+Technical requirements:
+
+* Static browser app only.
+* Use Vite + TypeScript.
+* Canvas, SVG, or DOM grid is acceptable. Prefer simple DOM/SVG/canvas over a heavy engine unless already practical.
+* No backend.
+* No accounts.
+* No analytics.
+* No telemetry.
+* No remote AI/model calls.
+* Store current run and best scores in localStorage.
+* Must pass:
+
+  * npm ci
+  * npm run typecheck
+  * npm run build
+  * npm audit --audit-level=moderate
+* Do not push or deploy unless explicitly authorized.
+
+Game title:
+Food Engines
+
+Subtitle:
+Plant the food. Feed the town. Discover that tomatoes are infrastructure.
+
+Alternate footer line:
+A tiny American farm sim about turning dirt, water, and panic into dinner.
+
+Core theme:
+Food independence is an engine. A farm is not just crops. It is soil, water, seeds, labor, storage, kitchens, preservation, markets, weather, animals, transportation, and community trust. The player builds those engines on a tiny cartoon farm grid and tries to feed a town without collapsing into lettuce regret.
+
+Main game structure:
+
+* One run lasts 21 days.
+* The player has a small farm grid, roughly 10x8 or 12x10.
+* The farm should look like a playful American country map:
+
+  * red barn
+  * dirt plots
+  * white fence
+  * roadside farm stand
+  * water tower or well
+  * silo
+  * flag bunting
+  * county road edge
+  * diner sign or town board
+  * picnic table/checkered cloth accents
+* Each day has:
+
+  1. Morning weather and town bulletin.
+  2. Town request board.
+  3. Player actions: plant, water, harvest, build, preserve, sell/feed.
+  4. End Day resolution.
+* Goal: finish with high Food Security, Town Fed score, Pantry Reserves, Market Trust, Soil Health, and Farm Sustainability.
+
+FarmVille-like casual loop, but original:
+
+* Click an empty plot.
+* Choose a crop.
+* Crop appears as a cute icon/sprite/emoji-like tile.
+* Crop grows through visible stages.
+* Crop tile shows a tiny timer/day badge.
+* Water droplet appears if thirsty.
+* Sparkle or outline appears when ready to harvest.
+* Harvest gives satisfying feedback: bounce, sparkle, small floating “+ Tomatoes” or “+ Fresh Food.”
+* Town request board asks for crops/meals/pantry items.
+* Completing requests gives money, trust, food security, seeds, or engine discounts.
+* Missing requests creates funny local bulletin consequences.
+* No real social network integration. Town Requests replace Facebook neighbor requests.
+
+Run length:
+21 days.
+
+Action economy:
+
+* Player gets 6 actions per day.
+* Planting costs 1 action.
+* Watering costs 1 action unless automated by rain/irrigation.
+* Harvesting costs 1 action or can be free if needed for better feel. Choose one and document it in README.
+* Building an engine costs 1 action and money.
+* Feeding town or preserving food costs 1 action unless automated by an engine.
+* End Day resolves growth, weather, spoilage, demand, and events.
+
+Resources and meters:
+Top HUD should show:
+
+* Day
+* Actions Left
+* Weather
+* Money
+* Water
+* Seeds
+* Fresh Food
+* Pantry Food
+* Food Security
+* Town Fed
+* Market Trust
+* Soil Health
+
+Additional hidden or secondary stats:
+
+* Spoilage
+* Farm Joy
+* Weather Stress
+* Demand Pressure
+* County Fair Pride
+* Diner Supply
+* School Lunch Readiness
+* Emergency Pantry Confidence
+
+Crop system:
+Implement at least eight crops, each with cost, growth time, water need, yield, fresh food value, pantry value, sell value, spoilage rate, and special traits.
+
+Required crops:
+
+1. Tomatoes
+   Fast, iconic, good for soup and canning.
+   Tagline: “Red, round, strategically important.”
+2. Corn
+   Slower, high yield, useful for town meals and animal feed.
+   Tagline: “America’s favorite vertical carbohydrate.”
+3. Beans
+   Medium growth, helps soil slightly.
+   Tagline: “Protein with civic benefits.”
+4. Potatoes
+   Strong pantry crop, stores well.
+   Tagline: “The root cellar’s emotional support vegetable.”
+5. Lettuce
+   Fast, high fresh value, spoils quickly, heat-sensitive.
+   Tagline: “Crisp until the weather has opinions.”
+6. Wheat
+   Needed for bread and diner rolls.
+   Tagline: “Future toast with zoning permits.”
+7. Apples
+   Orchard/perennial or longer crop, useful for pies/cider.
+   Tagline: “County fair currency.”
+8. Pumpkins
+   Slow, big yield, high fall/fair value.
+   Tagline: “Large orange civic morale unit.”
+
+Optional crops if easy:
+
+* Carrots
+* Strawberries
+* Peppers
+* Onions
+
+Crop visual stages:
+
+* planted seed
+* sprout
+* growing
+* mature
+* ready
+* wilted/spoiled, if neglected
+
+Weather:
+Each day has a forecast with clear effects.
+
+Weather types:
+
+* Sunny:
+  Normal growth, dries soil.
+* Rain:
+  Free watering, fills rain barrels.
+* Heat Wave:
+  Extra water demand, lettuce suffers, spoilage rises.
+* Cool Morning:
+  Slower growth, less spoilage.
+* Storm:
+  Fills water, may damage crops, town demand may rise.
+* Perfect Farm Day:
+  Growth boost, Farm Joy boost.
+* Dry Wind:
+  Water drains, soil stress rises.
+* County Fair Weather:
+  Market Trust and fair-demand bonus.
+
+Weather flavor lines:
+
+* “The radio says sunny. The lettuce looks nervous.”
+* “Rain barrels are accepting donations from the sky.”
+* “Heat wave arrives with the personality of a parking lot.”
+* “Storm clouds roll in. The corn seems into it.”
+* “Perfect farm day. Even the scarecrow looks employed.”
+
+Town Requests:
+Replace social neighbor requests with a town board. Requests should feel American, local, and funny.
+
+Request examples:
+
+* School Lunch Board needs 10 tomatoes and 6 wheat for cafeteria pasta day.
+* Firehouse Chili Night needs beans, tomatoes, and corn.
+* Diner Pie Case needs apples and wheat.
+* County Fair Booth needs pumpkins, pies, and blue-ribbon confidence.
+* Food Pantry Drive needs 20 pantry food before Day 18.
+* Baseball Concession Stand needs corn and potatoes.
+* Harvest Supper needs mixed crops.
+* Veterans Hall Breakfast needs eggs, potatoes, and bread if animals are implemented.
+* Town Picnic needs lettuce, tomatoes, corn, and pie.
+* Snow-Coming-Eventually Prep asks for pantry food, root-cellar crops, and canned goods.
+
+Request outcomes:
+If completed:
+
+* Town Fed increases.
+* Market Trust increases.
+* Food Security increases.
+* Money or bonus seeds awarded.
+* Bulletin prints a funny success line.
+
+If missed:
+
+* Food Security drops.
+* Market Trust drops.
+* Demand Pressure rises.
+* Bulletin prints a funny failure line.
+
+Food engines/upgrades:
+Implement at least eight total upgrades across categories. Each should be visually represented on the farm grid or side panel.
+
+1. Soil Engine
+   Compost Bin:
+   Converts spoilage/plant scraps into compost. Compost improves soil health.
+   Flavor: “Yesterday’s lettuce regret becomes tomorrow’s tomato confidence.”
+
+Crop Rotation Sign:
+Rewards varied planting.
+Flavor: “The field has been asked politely not to become dirt-flavored sadness.”
+
+2. Water Engine
+   Rain Barrel:
+   Stores rainwater for dry days.
+   Flavor: “The most respected barrel in town.”
+
+Well:
+Provides daily water.
+Flavor: “Hole in ground. Civilization follows.”
+
+Irrigation Ditch:
+Waters adjacent plots or reduces water action costs.
+Flavor: “Tiny canal, huge smugness.”
+
+3. Seed Engine
+   Seed Saving Shed:
+   Harvests sometimes return seeds.
+   Flavor: “Independence begins when tomatoes stop billing you.”
+
+Greenhouse:
+Protects a few tiles from weather.
+Flavor: “A tiny glass republic for delicate plants.”
+
+4. Kitchen Engine
+   Soup Pot:
+   Converts tomatoes, beans, potatoes, and corn into town meals.
+   Flavor: “Hot civic glue.”
+
+Bakery:
+Converts wheat and apples into bread/pies.
+Flavor: “Turns grain into morale.”
+
+Community Kitchen:
+Multiplies Town Fed from mixed crops.
+Flavor: “Where surplus becomes supper.”
+
+5. Preservation Engine
+   Cannery:
+   Converts tomatoes/beans/corn into pantry food.
+   Flavor: “Summer panic sealed in jars.”
+
+Root Cellar:
+Reduces spoilage and boosts potatoes/apples/pumpkins.
+Flavor: “Underground confidence.”
+
+Drying Rack:
+Preserves lighter crops.
+Flavor: “Low-tech snack diplomacy.”
+
+6. Market Engine
+   Roadside Farm Stand:
+   Sells surplus fresh food for money.
+   Flavor: “Honor-system capitalism with tomatoes.”
+
+CSA Chalkboard:
+Completing requests improves Market Trust and future demand rewards.
+Flavor: “Subscription vegetables, but neighborly.”
+
+County Market Stall:
+Better prices but raises demand pressure.
+Flavor: “Now the town knows you have tomatoes.”
+
+7. Animal Engine, optional if time allows
+   Chicken Coop:
+   Consumes corn or feed, produces eggs.
+   Flavor: “Breakfast with feathers.”
+
+Goat Pen:
+Consumes feed, produces milk.
+Flavor: “Dairy chaos in a fence.”
+
+Keep animals simple. Do not let them dominate the game.
+
+Engine synergies:
+When the player combines certain crops/upgrades, show a badge and small reward.
+
+Required synergy examples:
+
+* Tomatoes + Cannery = Sauce Sovereignty
+* Wheat + Bakery = Bread Independence
+* Rain Barrel + Irrigation = Water Loop
+* Beans + Compost Bin = Soil Recovery
+* Potatoes + Root Cellar = Winter Confidence
+* Community Kitchen + Mixed Crops = Soup Republic
+* Farm Stand + CSA Board = Market Trust Loop
+* Apples + Bakery = Pie Diplomacy
+* Corn + Chicken Coop = Breakfast Infrastructure, if chickens exist
+
+Synergy rewards:
+
+* small score boost
+* Market Trust boost
+* Food Security boost
+* funny bulletin line
+
+Visual design:
+Very American, very cartoon, not partisan.
+
+Visual motifs:
+
+* red barn
+* white fence
+* blue water tower
+* roadside farm stand
+* county fair ribbons
+* bunting
+* checkered picnic cloth
+* diner coffee sign
+* school lunch tray icon
+* firehouse chili pot
+* mason jars
+* root cellar door
+* corn rows
+* tomato crates
+* apple pie
+* grain silo
+* pickup truck produce run, generic shape only
+* local bulletin board
+* weather radio panel
+* state-fair-ish ribbon, but no real fair logos
+
+Color palette:
+
+* barn red
+* cream paper
+* corn yellow
+* denim blue
+* grass green
+* tomato red
+* white fence
+* navy headers
+* county fair gold accents
+
+HUD layout:
+Top:
+
+* Day
+* Actions
+* Weather
+* Money
+* Water
+* Fresh Food
+* Pantry Food
+* Food Security
+
+Left:
+
+* Crop/action/build menu
+* Crop selection
+* Engine upgrades
+
+Center:
+
+* Farm grid
+
+Right:
+
+* Town Request Board
+* Farm Radio / County Bulletin
+* Engine Synergies
+* Score Preview
+
+Title screen:
+Food Engines
+Plant the food. Feed the town. Discover that tomatoes are infrastructure.
+
+Pitch:
+Build the tiny food system underneath a fed town. Plant crops, store water, save seeds, can tomatoes, bake bread, fill school-lunch trays, stock the pantry, and prove that independence sometimes looks like a potato in a basement.
+
+Buttons:
+
+* Start Farm
+* How Food Engines Work
+* Load Saved Run, if save exists
+
+“How Food Engines Work” panel:
+
+1. Plant crops on the farm grid.
+2. Water them and wait for harvest.
+3. Complete town requests for trust and food security.
+4. Build food engines: soil, water, seeds, kitchens, preservation, markets.
+5. Store pantry food before weather and demand get rude.
+6. Finish 21 days with a town that can feed itself.
+
+First-run onboarding:
+Add a dismissible helper called:
+
+Farmer’s First Clipboard
+
+Checklist:
+
+* Plant tomatoes.
+* Water your first crop.
+* Harvest when the plot sparkles.
+* Complete a town request.
+* Build one food engine before Day 7.
+* Preserve something before Day 14.
+* Keep pantry food ready before the final week.
+
+Feedback toasts:
+Show clear feedback:
+
+* Tomatoes planted.
+* Corn planted.
+* Needs water.
+* Crop not ready.
+* Harvested tomatoes.
+* Not enough money.
+* Not enough water.
+* Tile already occupied.
+* Pantry stocked.
+* Soup delivered.
+* School lunch saved.
+* Firehouse chili funded.
+* Spoilage reduced.
+* Town fed.
+* Demand missed.
+* Rain barrel filled.
+* Cannery turned panic into jars.
+* Root cellar gained confidence.
+
+Farm Radio / County Bulletin:
+Add a feed of funny event blurbs.
+
+Examples:
+
+* “School lunch lady requests tomatoes with the intensity of a field marshal.”
+* “Grocery truck is late. Your lettuce suddenly has strategic importance.”
+* “Heat wave arrives. Lettuce files a formal complaint.”
+* “Neighbors ask if your potato pile is a business or a warning.”
+* “Rain barrel has become the most respected barrel in town.”
+* “Canning day converts summer panic into winter confidence.”
+* “Farm stand sells out. Three citizens now claim they knew you before tomatoes were cool.”
+* “County fair judge says the pie situation is ‘promising but emotionally unstable.’”
+* “Firehouse chili night has entered the bean procurement phase.”
+* “Diner coffee remains available. Society holds.”
+
+Endgame:
+After Day 21, show a shareable scorecard.
+
+Score components:
+
+* Town Fed
+* Food Security
+* Pantry Reserves
+* Soil Health
+* Market Trust
+* Money Remaining
+* Engine Synergies
+* County Fair Pride
+* Spoilage penalty
+* Weather Stress penalty
+* Missed Demand penalty
+
+Ending archetypes:
+
+* Pantry Republic
+* Tomato Sovereignty
+* Soup-Based Civilization
+* Breadbasket Boom
+* Lettuce Collapse
+* Potato Emergency State
+* Market Garden Hero
+* Compost Goblin Victory
+* Grocery Truck Dependency
+* Winter Confidence Achieved
+* County Fair Food Hero
+* Diner Supply Miracle
+* Root Cellar Republic
+
+Endgame newspaper headlines:
+
+* “Tiny Farm Keeps Town Fed, Mostly Through Tomatoes And Stubbornness”
+* “Root Cellar Declared Strategic Asset”
+* “Soup Republic Forms After Successful Community Kitchen Run”
+* “Lettuce Failure Raises Questions About Moisture Policy”
+* “Tomato Surplus Becomes Local Currency For Several Confusing Hours”
+* “County Fair Pie Table Stabilizes Local Morale”
+* “Canning Jars Credited With Preventing Civic Nonsense”
+* “School Lunch Saved By Aggressive Wheat Policy”
+* “Food Pantry Enters Winter With Dangerous Levels Of Confidence”
+
+Awards:
+
+* Tomato Infrastructure Medal
+* Root Cellar Goblin
+* Blue Ribbon Logistics
+* Diner Supply Hero
+* School Lunch Defender
+* Firehouse Chili Champion
+* Rain Barrel Diplomat
+* Compost Alchemist
+* Pantry Panic Survivor
+* County Fair Pie Strategist
+
+Copy Recap button:
+Copies:
+“I built [ending] in Food Engines. Score: X. Town Fed: X. Pantry: X. Soil: X. Best engine: X. Worst problem: X.”
+
+If clipboard fails, show the recap in a selectable text box.
+
+Save/load:
+
+* Save current run to localStorage.
+* Save best score to localStorage.
+* Continue saved run from title screen if present.
+* New run should confirm if it will overwrite an active save.
+
+README:
+Include:
+
+* What the game is
+* How it fits Independence Engines
+* How to run
+* How to build
+* How to play
+* No backend/accounts/analytics/telemetry
+* Static localStorage-only save
+* Known limitations
+
+README Independence framing:
+Food Engines is an Independence Engine because food freedom is not just planting a crop. It is the system that keeps people fed: soil, water, seeds, labor, storage, kitchens, preservation, markets, weather, and community trust. The player builds those engines on a tiny American farm grid.
+
+Submission blurb:
+Food Engines is a cartoon farm-grid strategy game about food independence. Players plant crops, harvest food, build water/soil/seed/kitchen/preservation/market engines, and answer town requests for school lunches, diner pies, firehouse chili, pantry drives, and county fair meals. It looks like a cheerful casual farm game, but underneath the tomatoes is a civic engine: can this little town feed itself when weather, spoilage, demand, and late grocery trucks start pushing back?
+
+Build/test scripts:
+Provide scripts:
+
+* npm run typecheck
+* npm run build
+* npm run playtest, if implemented
+* npm run package:review, if implemented
+
+Browser smoke test:
+Add a browser smoke test if possible:
+
+* Title screen appears.
+* Start Farm works.
+* Farm grid appears.
+* Plant tomatoes.
+* Advance days until harvest.
+* Harvest food.
+* Build one engine.
+* Complete or attempt a town request.
+* Reach ending.
+* Endgame scorecard appears.
+* Copy Recap exists.
+* No console errors.
+* No horizontal overflow at 1280x720 and 1440x900.
+
+Package/review:
+Create:
+
+* BUILD_LOG_FOOD_ENGINES.txt
+* BUILD_RECEIPT_FOOD_ENGINES.md
+* PACKAGE_VERIFY_FOOD_ENGINES.md
+* PLAYTEST_REPORT_FOOD_ENGINES.md, if browser test exists
+* output/playwright screenshots:
+
+  * food-engines-title.png
+  * food-engines-board.png
+  * food-engines-planting.png
+  * food-engines-engine-built.png
+  * food-engines-town-request.png
+  * food-engines-ending.png
+
+Review ZIP:
+food-engines-review.zip
+
+The final ZIP must:
+
+* use forward-slash paths only
+* exclude node_modules, dist, .git, .vite, caches, temp folders, old zips
+* include source, scripts, docs, README, package files, screenshots, build receipt/log, verification report
+* exact extracted ZIP must pass:
+
+  * npm ci
+  * npm run typecheck
+  * npm run build
+  * npm audit --audit-level=moderate
+  * npm run playtest, if implemented
+
+Acceptance criteria:
+
+* Player can complete a full 21-day run.
+* Crops visibly grow through stages.
+* At least eight crops exist.
+* At least eight food engines/upgrades exist.
+* Weather affects play.
+* Town requests create pressure.
+* Preservation/pantry system matters.
+* At least six engine synergies exist.
+* Scorecard and ending are shareable.
+* Build/typecheck/audit pass.
+* Package is portable.
+* No push/deploy without explicit user authorization.
