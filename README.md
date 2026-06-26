@@ -1,14 +1,22 @@
 # Food Engines
 
-Food Engines is a bright static browser farm-grid strategy game about food independence: plant crops, build the systems behind a fed town, and discover that tomatoes are infrastructure.
+**Plant the food. Feed the town. Discover that tomatoes are infrastructure.**
 
-Built for **Summer into AI Week 2: Independence Engines**.
+**Live demo:** https://bluntforceriot.github.io/food-engines/
 
-## Pitch
+![Food Engines cover art](docs/food-engines-cover.png)
 
-Build the tiny food system underneath a fed town. Plant crops, store water, save seeds, can tomatoes, bake bread, fill school-lunch trays, stock the pantry, and prove that independence sometimes looks like a potato in a basement.
+Food Engines is a bright static browser farm-grid strategy game about food independence, built for **Summer into AI Week 2: Independence Engines**.
 
-## How It Fits Independence Engines
+You get 21 days, 6 actions per day, a 10x8 farm grid, limited water, hungry town requests, changing weather, spoilage pressure, and one increasingly obvious truth: a fed town is not one crop. It is an engine.
+
+Plant tomatoes, corn, beans, potatoes, lettuce, wheat, apples, and pumpkins. Build compost, rain barrels, wells, seed saving, kitchens, preservation, root cellars, farm stands, and market systems. Answer requests for school lunches, firehouse chili, diner pies, pantry drives, baseball stands, picnics, harvest suppers, and county fair booths.
+
+It looks cheerful because it should. The subject is practical because independence is not a slogan. It is soil, water, seeds, labor, storage, kitchens, preservation, markets, weather response, and community trust.
+
+The cover image is promotional documentation art, not a runtime game asset. Runtime visuals are generated with HTML/CSS and procedural shapes.
+
+## Why It Exists
 
 Food Engines treats food freedom as an engine, not a single crop. The player builds the connected systems that keep people fed: soil, water, seeds, labor, storage, kitchens, preservation, markets, weather response, and community trust.
 
