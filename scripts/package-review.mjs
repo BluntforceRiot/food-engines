@@ -14,7 +14,8 @@ const forbiddenSegments = new Set([
   "coverage",
   ".cache",
   "tmp",
-  "temp"
+  "temp",
+  "internal"
 ]);
 
 const requiredFiles = [
@@ -99,6 +100,9 @@ function shouldInclude(entry) {
     return false;
   }
   if (entry === "food-engines-review.zip") {
+    return false;
+  }
+  if (entry === "Instructions.txt") {
     return false;
   }
   if (entry.endsWith(".zip")) {

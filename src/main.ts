@@ -842,26 +842,38 @@ function buildEnding(game: GameState): Ending {
 }
 
 function endingTitle(game: GameState, score: number): string {
-  if (game.foodSecurity >= 88 && game.pantryFood >= 45) return "Pantry Republic";
-  if (game.inventory.tomatoes > 25 || game.harvestedCrops.includes("tomatoes")) return "Tomato Sovereignty";
-  if (game.synergies.includes("soup-republic")) return "Soup-Based Civilization";
-  if (game.synergies.includes("bread-independence")) return "Breadbasket Boom";
+  if (score <= 100 || (game.foodSecurity < 20 && game.townFed <= 2)) return "Grocery Truck Dependency";
+  if (game.missedRequests >= 10 || (game.marketTrust < 15 && game.demandPressure >= 28)) return "Missed Demand Spiral";
+  if (game.pantryFood < 12 && game.foodSecurity < 35) return "Pantry Failed To Launch";
+  if (game.weatherStress >= 20 || (game.weatherStress >= 14 && game.spoilage >= 18)) return "Weather Ate The Farm";
+  if (score < 650 && game.harvestedCrops.includes("tomatoes") && (game.townFed <= 4 || game.foodSecurity < 40)) {
+    return "Tomato Symbolism Could Not Feed The Town";
+  }
+  if (game.foodSecurity < 45 || game.marketTrust < 25) return "Grocery Truck Dependency";
+  if (game.foodSecurity >= 88 && game.pantryFood >= 45 && game.townFed >= 30 && score >= 1700) return "Pantry Republic";
+  if (game.synergies.includes("soup-republic") && game.townFed >= 20) return "Soup-Based Civilization";
+  if (game.synergies.includes("bread-independence") && game.marketTrust >= 45) return "Breadbasket Boom";
   if (game.weatherStress > 20 && game.harvestedCrops.includes("lettuce")) return "Lettuce Collapse";
-  if (game.inventory.potatoes > 25) return "Potato Emergency State";
-  if (game.marketTrust >= 75) return "Market Garden Hero";
-  if (game.engines.includes("compost") && game.soilHealth >= 90) return "Compost Alchemist Victory";
-  if (game.foodSecurity < 45) return "Grocery Truck Dependency";
-  if (game.pantryFood >= 35) return "Winter Confidence Achieved";
-  if (game.countyFairPride >= 30) return "County Fair Food Hero";
-  if (score > 1800) return "Diner Supply Miracle";
+  if (game.inventory.tomatoes > 25 && game.foodSecurity >= 55 && game.townFed >= 12) return "Tomato Sovereignty";
+  if (game.inventory.potatoes > 25 && game.pantryFood >= 25) return "Potato Emergency State";
+  if (game.marketTrust >= 75 && game.completedRequests >= 4) return "Market Garden Hero";
+  if (game.engines.includes("compost") && game.soilHealth >= 90 && score >= 900) return "Compost Alchemist Victory";
+  if (game.pantryFood >= 35 && game.foodSecurity >= 60) return "Winter Confidence Achieved";
+  if (game.countyFairPride >= 30 && game.marketTrust >= 50) return "County Fair Food Hero";
+  if (score > 1800 && game.townFed >= 20) return "Diner Supply Miracle";
   return "Root Cellar Republic";
 }
 
 function endingHeadline(game: GameState, title: string): string {
+  if (title === "Grocery Truck Dependency") return "Town Rechecks Grocery Schedule After Farm Comes Up Short";
+  if (title === "Pantry Failed To Launch") return "Pantry Shelves Request More Than Symbolic Vegetables";
+  if (title === "Missed Demand Spiral") return "Town Board Finds Demand Outran The Produce Wagon";
+  if (title === "Weather Ate The Farm") return "Weather Takes Credit For Several Bad Agricultural Decisions";
+  if (title === "Tomato Symbolism Could Not Feed The Town") return "Tomato Symbolism Could Not Feed The Town";
   if (title.includes("Pantry")) return "Food Pantry Enters Winter With Dangerous Levels Of Confidence";
   if (game.synergies.includes("soup-republic")) return "Soup Republic Forms After Successful Community Kitchen Run";
   if (game.synergies.includes("winter-confidence")) return "Root Cellar Declared Strategic Asset";
-  if (game.harvestedCrops.includes("tomatoes")) return "Tiny Farm Keeps Town Fed, Mostly Through Tomatoes And Stubbornness";
+  if (title === "Tomato Sovereignty") return "Tiny Farm Keeps Town Fed, Mostly Through Tomatoes And Stubbornness";
   if (game.spoilage > 30) return "Lettuce Failure Raises Questions About Moisture Policy";
   if (game.countyFairPride > 20) return "County Fair Pie Table Stabilizes Local Morale";
   if (game.engines.includes("cannery")) return "Canning Jars Credited With Preventing Civic Nonsense";
@@ -869,6 +881,11 @@ function endingHeadline(game: GameState, title: string): string {
 }
 
 function endingAward(game: GameState): string {
+  if (game.foodSecurity < 25 || game.townFed <= 2) return "Emergency Grocery Receipt";
+  if (game.missedRequests >= 8) return "Demand Board Caution Ribbon";
+  if (game.pantryFood < 12 && game.foodSecurity < 40) return "Pantry Wake-Up Call";
+  if (game.weatherStress >= 18) return "Weather Stress Survivor";
+  if (game.harvestedCrops.includes("tomatoes") && game.townFed < 8) return "Symbolic Tomato Citation";
   if (game.harvestedCrops.includes("tomatoes")) return "Tomato Infrastructure Medal";
   if (game.engines.includes("rootCellar")) return "Root Cellar Night Shift";
   if (game.countyFairPride > 20) return "Blue Ribbon Logistics";
@@ -1298,8 +1315,8 @@ function requestCard(request: TownRequest): string {
       </div>
       <p>${request.body}</p>
       <div class="need-list">${request.needs.map(needLabel).join("")}</div>
-      <button class="button ${canFill ? "button--primary" : ""}" data-request="${request.id}">
-        ${canFill ? "Fill Request" : "Gather Food"}
+      <button class="button ${canFill ? "button--primary" : ""}" data-request="${request.id}" ${canFill ? "" : "disabled"}>
+        ${canFill ? "Fill Request" : "Need More Food"}
       </button>
     </article>
   `;

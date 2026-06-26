@@ -16,7 +16,8 @@ const forbiddenSegments = new Set([
   "coverage",
   ".cache",
   "tmp",
-  "temp"
+  "temp",
+  "internal"
 ]);
 
 const hash = await sha256(zipPath);

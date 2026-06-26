@@ -60,9 +60,11 @@ try {
     throw new Error("Compost engine did not build.");
   }
 
-  const firstRequest = page.locator("[data-request]").first();
-  if ((await firstRequest.count()) > 0) {
-    await firstRequest.click();
+  const readyRequest = page.locator("[data-request]:not([disabled])").first();
+  if ((await readyRequest.count()) > 0) {
+    await readyRequest.click();
+  } else {
+    await expectText(page, "Need More Food");
   }
 
   await advanceToEnding(page);
