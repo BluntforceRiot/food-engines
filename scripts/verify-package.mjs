@@ -40,7 +40,8 @@ try {
     ["npm run typecheck", npmCommand(), ["run", "typecheck"]],
     ["npm run build", npmCommand(), ["run", "build"]],
     ["npm audit --audit-level=moderate", npmCommand(), ["audit", "--audit-level=moderate"]],
-    ["npm run playtest", npmCommand(), ["run", "playtest"]]
+    ["npm run playtest", npmCommand(), ["run", "playtest"]],
+    ["npm run playtest:full", npmCommand(), ["run", "playtest:full"]]
   ];
 
   for (const [label, command, args] of commands) {
@@ -83,7 +84,7 @@ const report = [
   "## Result",
   "",
   result === "PASS"
-    ? "PASS. The extracted package installed, typechecked, built, audited, and passed the browser smoke playtest."
+    ? "PASS. The extracted package installed, typechecked, built, audited, and passed the browser smoke and full-run playtests."
     : "FAIL. See command output above."
 ].join("\n");
 

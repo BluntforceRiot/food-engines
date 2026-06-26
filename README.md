@@ -28,6 +28,7 @@ npm run typecheck
 npm run build
 npm audit --audit-level=moderate
 npm run playtest
+npm run playtest:full
 ```
 
 Optional review helpers:
@@ -95,4 +96,3 @@ ChatGPT/Codex were used for design expansion, implementation, review tooling, an
 ## Submission Blurb
 
 Food Engines is a cartoon farm-grid strategy game about food independence. Players plant crops, harvest food, build water/soil/seed/kitchen/preservation/market engines, and answer town requests for school lunches, diner pies, firehouse chili, pantry drives, and county fair meals. It looks like a cheerful casual farm game, but underneath the tomatoes is a civic engine: can this little town feed itself when weather, spoilage, demand, and late grocery trucks start pushing back?
-

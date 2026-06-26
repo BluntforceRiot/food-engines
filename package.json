@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "build": "vite build",
     "playtest": "node scripts/playtest.mjs",
+    "playtest:full": "node scripts/full-run-playtest.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs",
     "package:review": "node scripts/package-review.mjs",
     "verify:package": "node scripts/verify-package.mjs"

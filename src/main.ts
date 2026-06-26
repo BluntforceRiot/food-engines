@@ -114,6 +114,10 @@ let view: ViewName = state?.ending ? "ending" : "title";
 let toastTimer: number | undefined;
 let titleHowOpen = false;
 
+// Public-demo tuning: keeps the 21-day request cadence demanding without turning
+// every competent run into a missed-demand pileup.
+const REQUEST_DEADLINE_GRACE_DAYS = 2;
+
 const cropOrder = CROPS.map((crop) => crop.id);
 
 function blankInventory(): Record<CropId, number> {
@@ -139,7 +143,7 @@ function createRequest(template: RequestTemplate, day: number, slot: number): To
     templateId: template.id,
     title: template.title,
     body: template.body,
-    dueDay: Math.min(RUN_DAYS, day + template.duration),
+    dueDay: Math.min(RUN_DAYS, day + template.duration + REQUEST_DEADLINE_GRACE_DAYS),
     needs: template.needs.map((need) => ({ ...need })),
     rewards: { ...template.rewards },
     success: template.success,
@@ -843,9 +847,20 @@ function buildEnding(game: GameState): Ending {
 
 function endingTitle(game: GameState, score: number): string {
   if (score <= 100 || (game.foodSecurity < 20 && game.townFed <= 2)) return "Grocery Truck Dependency";
-  if (game.missedRequests >= 10 || (game.marketTrust < 15 && game.demandPressure >= 28)) return "Missed Demand Spiral";
+  if (
+    game.missedRequests >= 10 ||
+    (game.missedRequests >= 8 && (game.marketTrust < 20 || game.foodSecurity < 45)) ||
+    (game.marketTrust < 15 && game.demandPressure >= 28)
+  ) {
+    return "Missed Demand Spiral";
+  }
   if (game.pantryFood < 12 && game.foodSecurity < 35) return "Pantry Failed To Launch";
-  if (game.weatherStress >= 20 || (game.weatherStress >= 14 && game.spoilage >= 18)) return "Weather Ate The Farm";
+  if (
+    (game.weatherStress >= 20 && (score < 900 || game.foodSecurity < 45 || game.pantryFood < 18)) ||
+    (game.weatherStress >= 14 && game.spoilage >= 18 && score < 1200)
+  ) {
+    return "Weather Ate The Farm";
+  }
   if (score < 650 && game.harvestedCrops.includes("tomatoes") && (game.townFed <= 4 || game.foodSecurity < 40)) {
     return "Tomato Symbolism Could Not Feed The Town";
   }
